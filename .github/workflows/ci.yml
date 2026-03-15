@@ -6,10 +6,6 @@ jobs:
   lint-and-test:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: PRACT3_PRODUCCION_SOFTWARE-main
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
