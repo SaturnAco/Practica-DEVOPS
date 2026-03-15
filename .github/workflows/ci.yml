@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: PRACT3_PRODUCCION_SOFTWARE-main
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Check formatting
+        run: uv run ruff format . --check
+
+      - name: Check lint
+        run: uv run ruff check . --fix
+
+      - name: Check types
+        run: uv run mypy .
+
+      - name: Run unit tests
+        run: uv run pytest ./core/tests/unit
+
+      - name: Run integration tests
+        run: uv run pytest ./core/tests/integration
+
+      - name: Run BDD tests
+        run: uv run pytest ./core/tests/behaviour
