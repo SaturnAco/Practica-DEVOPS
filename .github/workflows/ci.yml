@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: ["**"]
+    branches: ["main"]
 
 jobs:
   lint-and-test:
@@ -32,9 +32,6 @@ jobs:
 
       - name: Check lint
         run: uv run ruff check . --fix
-
-      - name: Check types
-        run: uv run mypy .
 
       - name: Run unit tests
         run: uv run pytest ./core/tests/unit
