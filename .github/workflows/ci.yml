@@ -1,8 +1,6 @@
 name: CI
 
-on:
-  push:
-    branches: ["main"]
+on: push
 
 jobs:
   lint-and-test:
@@ -27,17 +25,17 @@ jobs:
       - name: Install dependencies
         run: uv sync
 
-      - name: Check formatting
-        run: uv run ruff format . --check
+      - name: Check code errors
+        run: uv run python -m ruff check . --fix
 
-      - name: Check lint
-        run: uv run ruff check . --fix
+      - name: Check formatting
+        run: uv run python -m ruff format . --check
 
       - name: Run unit tests
-        run: uv run pytest ./core/tests/unit
+        run: uv run python -m pytest ./core/tests/unit
 
       - name: Run integration tests
-        run: uv run pytest ./core/tests/integration
+        run: uv run python -m pytest ./core/tests/integration
 
       - name: Run BDD tests
-        run: uv run pytest ./core/tests/behaviour
+        run: uv run python -m pytest ./core/tests/behaviour
